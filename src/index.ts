@@ -200,7 +200,7 @@ const areaSeries = areaChart.addAreaSeries({
     topColor: 'rgba(140, 97, 255, 0.3)',
     bottomColor: 'rgba(140, 97, 255, 0)',
     lineColor: '#8C61FF',
-    lineWidth: 2,
+    lineWidth: 1,
 });
 
 areaSeries.setData(data);
