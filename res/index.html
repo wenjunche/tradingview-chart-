@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
-<body>
+<body style="height: 100%; width: 100%; min-height: 100vh; margin: 0px;">
     <h1>Tradingview Chart</h1>
-    <div id="area-chart"></div>
+    <div id="area-chart1" style="overflow: hidden; min-height: 200px;"></div>
+    <div id="area-chart2" style="overflow: hidden; min-height: 200px;"></div>
     <div id="line-chart"></div>
 </body>
 </html>

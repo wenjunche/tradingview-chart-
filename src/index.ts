@@ -1,4 +1,4 @@
-import { createChart, ChartOptions, ColorType, LineStyle, LastPriceAnimationMode } from 'lightweight-charts';
+import { createChart, ChartOptions, ColorType, LineStyle, LastPriceAnimationMode, PriceScaleMode } from 'lightweight-charts';
 
 const data = [
     // { time: '2018-10-19', value: 35.98 },
@@ -153,15 +153,15 @@ const data = [
 	{ time: '2019-05-28', value: 42.75 },
 ];
 
-function randomData() {
+function randomData(factor:number = 1) {
     return data.map(item => {
-        return { time: item.time,  value: Math.random()*20 }
+        return { time: item.time,  value: Math.random()*20*factor }
     })
 }
 
 var darkTheme:ChartOptions = {
     height: 300,
-    width: 900,
+    width: 600,
     layout: {
         background: { type: ColorType.Solid, color: '#2B2B43'},
         backgroundColor: '#2B2B43',
@@ -183,6 +183,11 @@ var darkTheme:ChartOptions = {
         },
     },
     // @ts-expect-error
+    leftPriceScale: {
+        borderVisible: false,
+        visible: true
+    },
+    // @ts-expect-error
     rightPriceScale: {
         borderVisible: false,
         visible: false
@@ -193,7 +198,7 @@ var darkTheme:ChartOptions = {
     }
 };
 
-const areaDiv = document.getElementById("area-chart");
+const areaDiv = document.getElementById("area-chart1");
 const areaChart = createChart(areaDiv, darkTheme);
 areaChart.timeScale().fitContent();
 const areaSeries = areaChart.addAreaSeries({
@@ -202,8 +207,22 @@ const areaSeries = areaChart.addAreaSeries({
     lineColor: '#8C61FF',
     lineWidth: 1,
 });
+areaSeries.setData(randomData(100000));
+areaSeries.priceScale().applyOptions({ borderVisible: false });
+areaSeries.applyOptions({ priceLineVisible: false, lastValueVisible: false, priceFormat: { type: 'volume' }});
 
-areaSeries.setData(data);
+const areaDiv2 = document.getElementById("area-chart2");
+const areaChart2 = createChart(areaDiv2, darkTheme);
+areaChart2.timeScale().fitContent();
+const areaSeries2 = areaChart2.addAreaSeries({
+    topColor: 'rgba(140, 97, 255, 0.3)',
+    bottomColor: 'rgba(140, 97, 255, 0)',
+    lineColor: '#8C61FF',
+    lineWidth: 1,
+});
+areaSeries2.setData(randomData(1));
+areaSeries2.priceScale().applyOptions({ borderVisible: false });
+areaSeries2.applyOptions({ priceLineVisible: false, lastValueVisible: false, priceFormat: { type: 'percent', precision: 2 }});
 
 const lineDiv = document.getElementById("line-chart");
 const lineChart = createChart(lineDiv, darkTheme);
@@ -213,22 +232,30 @@ const lineSeries1 = lineChart.addLineSeries({
     lineWidth: 1,
     lastPriceAnimation: LastPriceAnimationMode.Continuous
 });
-lineSeries1.setData(randomData());
+lineSeries1.setData(randomData(1));
+lineSeries1.priceScale().applyOptions({mode: PriceScaleMode.Percentage, drawTicks: false});
+lineSeries1.applyOptions({ priceLineVisible: false, baseLineVisible: false});
 
 const lineSeries2 = lineChart.addLineSeries({
     color: '#FF8C4C',
     lineWidth: 1
 });
-lineSeries2.setData(randomData());
+lineSeries2.setData(randomData(100));
+lineSeries2.priceScale().applyOptions({mode: PriceScaleMode.Percentage, drawTicks: false});
+lineSeries2.applyOptions({ priceLineVisible: false, baseLineVisible: false});
 
 const lineSeries3 = lineChart.addLineSeries({
     color: '#F4BF00',
     lineWidth: 1
 });
-lineSeries3.setData(randomData());
+lineSeries3.setData(randomData(1000));
+lineSeries3.priceScale().applyOptions({mode: PriceScaleMode.Percentage, drawTicks: false});
+lineSeries3.applyOptions({ priceLineVisible: false, baseLineVisible: false});
 
 const lineSeries4 = lineChart.addLineSeries({
     color: '#46C8F1',
     lineWidth: 1
 });
-lineSeries4.setData(randomData());
+lineSeries4.setData(randomData(10000));
+lineSeries4.priceScale().applyOptions({mode: PriceScaleMode.Percentage, drawTicks: false});
+lineSeries4.applyOptions({ priceLineVisible: false, baseLineVisible: false});
